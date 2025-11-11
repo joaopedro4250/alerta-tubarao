@@ -3,10 +3,9 @@ import React, { useRef, useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
-import { Link } from "react-router-dom";
-import i18n from "./i18n";
-import { useTranslation } from "react-i18next";
 import { praias } from "./data/praias";
+import { useTranslation } from "react-i18next";
+import Header from "./Header"; // ✅ Import do header reutilizável
 
 delete L.Icon.Default.prototype._getIconUrl;
 
@@ -83,32 +82,8 @@ export default function MapPage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-white">
-      {/* Header */}
-      <header className="bg-[#6A5ACD] text-white flex items-center justify-between px-8 h-20 shadow-md">
-        <img src="/logo.png" alt="Logo" className="w-54 h-48" />
-        <nav className="hidden md:flex space-x-6 font-semibold">
-          <Link to="/" className="hover:text-gray-200">
-            {t("menu.prevention")}
-          </Link>
-          <Link to="/map" className="hover:text-gray-200">
-            {t("menu.map")}
-          </Link>
-          <a href="#contact" className="hover:text-gray-200">
-            {t("menu.contact")}
-          </a>
-        </nav>
-        <img
-          src={
-            i18n.language === "pt"
-              ? "/bandeira-brasil.jpg"
-              : i18n.language === "en"
-              ? "/bandeira-estados-unidos.jpg"
-              : "/bandeira-espanha.png"
-          }
-          alt="Bandeira atual"
-          className="w-9 h-6 rounded-sm border border-white"
-        />
-      </header>
+      {/* ✅ Cabeçalho reutilizado */}
+      <Header />
 
       {/* Conteúdo principal */}
       <main className="flex-grow flex flex-row bg-[#f9fafb]">
@@ -201,7 +176,9 @@ export default function MapPage() {
                 <h3 className="font-bold text-[#6A5ACD]">
                   {praiaSelecionada.nome}
                 </h3>
-                <p className="text-gray-600 mt-2">{praiaSelecionada.descricao}</p>
+                <p className="text-gray-600 mt-2">
+                  {praiaSelecionada.descricao}
+                </p>
               </div>
             )}
           </div>

@@ -1,6 +1,7 @@
+// src/Home.jsx
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom"; // 👈 Importante para navegação
+import { Link } from "react-router-dom";
 import i18n from "./i18n";
 
 export default function Home() {
@@ -8,84 +9,105 @@ export default function Home() {
   const [showBatherCards, setShowBatherCards] = useState(false);
   const { t } = useTranslation();
   const [showFlags, setShowFlags] = useState(false);
+  const [menuAberto, setMenuAberto] = useState(false);
 
   return (
     <div className="min-h-screen flex flex-col bg-white relative">
       {/* Header */}
-      <header className="bg-[#6A5ACD] text-white flex items-center justify-between px-8 h-20 shadow-md">
+      <header className="bg-[#6A5ACD] text-white flex items-center justify-between px-6 md:px-8 h-20 shadow-md relative">
         {/* Logo */}
         <div className="flex items-center space-x-4">
-          <img src="/logo.png" alt="Logo Alerta Tubarão" className="w-54 h-48" />
+          <img src="/logo.png" alt="Logo Alerta Tubarão" className="w-32 md:w-40 h-auto" />
         </div>
 
-        {/* Menu com tradução */}
+        {/* Menu Desktop */}
         <nav className="hidden md:flex space-x-6 font-semibold">
-          <a href="#" className="hover:text-gray-200">{t("menu.prevention")}</a>
+          <Link to="/" className="hover:text-gray-200">{t("menu.prevention")}</Link>
           <Link to="/map" className="hover:text-gray-200">{t("menu.map")}</Link>
           <a href="#" className="hover:text-gray-200">{t("menu.contact")}</a>
           <a href="#" className="hover:text-gray-200">{t("menu.download")}</a>
-          {/* 👇 Ajustes para redirecionar corretamente */}
           <Link to="/login" className="hover:text-gray-200">{t("menu.login")}</Link>
           <Link to="/register" className="hover:text-gray-200">{t("menu.register")}</Link>
         </nav>
 
-        {/* Seleção de idioma */}
-        <div className="relative hidden md:block">
-          <img
-            src={
-              i18n.language === "pt"
-                ? "/bandeira-brasil.jpg"
-                : i18n.language === "en"
-                ? "/bandeira-estados-unidos.jpg"
-                : "/bandeira-espanha.png"
-            }
-            alt="Bandeira atual"
-            className="w-10 h-7 rounded-sm border border-white cursor-pointer"
-            onClick={() => setShowFlags(!showFlags)}
-          />
+        {/* Bandeiras e Menu Mobile lado a lado */}
+        <div className="flex items-center gap-4">
+          {/* Bandeira sempre visível (PC + Celular) */}
+          <div className="relative">
+            <img
+              src={
+                i18n.language === "pt"
+                  ? "/bandeira-brasil.jpg"
+                  : i18n.language === "en"
+                  ? "/bandeira-estados-unidos.jpg"
+                  : "/bandeira-espanha.png"
+              }
+              alt="Bandeira atual"
+              className="w-9 h-6 rounded-sm border border-white cursor-pointer"
+              onClick={() => setShowFlags(!showFlags)}
+            />
+            {showFlags && (
+              <div className="absolute right-0 mt-2 flex flex-col items-center bg-white shadow-lg rounded-md border p-2 z-50">
+                {[ 
+                  { img: "/bandeira-brasil.jpg", lang: "pt" },
+                  { img: "/bandeira-estados-unidos.jpg", lang: "en" },
+                  { img: "/bandeira-espanha.png", lang: "es" },
+                ].map(({ img, lang }) => (
+                  <img
+                    key={lang}
+                    src={img}
+                    alt={lang}
+                    className="w-9 h-6 m-1 cursor-pointer hover:opacity-70"
+                    onClick={() => {
+                      i18n.changeLanguage(lang);
+                      setShowFlags(false);
+                    }}
+                  />
+                ))}
+              </div>
+            )}
+          </div>
 
-          {showFlags && (
-            <div className="absolute right-0 mt-2 flex flex-col bg-white shadow-lg rounded-md border p-2 z-50">
-              <img
-                src="/bandeira-brasil.jpg"
-                alt="Português"
-                className="w-10 h-7 m-1 cursor-pointer hover:opacity-70"
-                onClick={() => {
-                  i18n.changeLanguage("pt");
-                  setShowFlags(false);
-                }}
-              />
-              <img
-                src="/bandeira-estados-unidos.jpg"
-                alt="English"
-                className="w-10 h-7 m-1 cursor-pointer hover:opacity-70"
-                onClick={() => {
-                  i18n.changeLanguage("en");
-                  setShowFlags(false);
-                }}
-              />
-              <img
-                src="/bandeira-espanha.png"
-                alt="Español"
-                className="w-10 h-7 m-1 cursor-pointer hover:opacity-70"
-                onClick={() => {
-                  i18n.changeLanguage("es");
-                  setShowFlags(false);
-                }}
-              />
-            </div>
-          )}
+          {/* Botão Hamburguer */}
+          <button
+            onClick={() => setMenuAberto(!menuAberto)}
+            className="md:hidden text-white text-3xl"
+          >
+            ☰
+          </button>
         </div>
 
-        <button className="md:hidden text-white font-bold text-2xl">☰</button>
+        {/* Dropdown Mobile */}
+        {menuAberto && (
+          <div className="absolute top-20 left-0 w-full bg-[#7B68EE] flex flex-col items-center space-y-4 py-6 md:hidden shadow-lg z-50">
+            <Link to="/" className="hover:text-gray-200" onClick={() => setMenuAberto(false)}>
+              {t("menu.prevention")}
+            </Link>
+            <Link to="/map" className="hover:text-gray-200" onClick={() => setMenuAberto(false)}>
+              {t("menu.map")}
+            </Link>
+            <a href="#" className="hover:text-gray-200" onClick={() => setMenuAberto(false)}>
+              {t("menu.contact")}
+            </a>
+            <a href="#" className="hover:text-gray-200" onClick={() => setMenuAberto(false)}>
+              {t("menu.download")}
+            </a>
+            <Link to="/login" className="hover:text-gray-200" onClick={() => setMenuAberto(false)}>
+              {t("menu.login")}
+            </Link>
+            <Link to="/register" className="hover:text-gray-200" onClick={() => setMenuAberto(false)}>
+              {t("menu.register")}
+            </Link>
+          </div>
+        )}
       </header>
 
       {/* Introdução */}
-      <section className="max-w-5xl mx-auto text-center py-16 px-6 bg-[#f5f4ff] rounded-2xl">
-        <h1 className="text-3xl md:text-4xl font-bold text-[#6A5ACD] mb-6">
+      <section className="max-w-5xl mx-auto text-center py-12 px-4 sm:px-6 bg-[#f5f4ff] rounded-2xl mt-4">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#6A5ACD] mb-6">
           {t("intro.title")}
         </h1>
-        <p className="text-gray-700 text-lg leading-relaxed mb-8">
+        <p className="text-gray-700 text-base sm:text-lg leading-relaxed mb-8">
           {t("intro.paragraph1")}
         </p>
 
@@ -94,35 +116,35 @@ export default function Home() {
           <img
             src="/tubarao-tigre.jpg"
             alt="Tubarão"
-            className="w-full md:w-1/2 h-64 object-cover rounded-2xl shadow-lg"
+            className="w-full md:w-1/2 h-60 sm:h-64 object-cover rounded-2xl shadow-lg"
           />
           <img
             src="/banhistas-praia.jpg"
             alt="Praia de Recife"
-            className="w-full md:w-1/2 h-64 object-cover rounded-2xl shadow-lg"
+            className="w-full md:w-1/2 h-60 sm:h-64 object-cover rounded-2xl shadow-lg"
           />
         </div>
 
-        <p className="text-gray-700 text-lg leading-relaxed">
+        <p className="text-gray-700 text-base sm:text-lg leading-relaxed">
           {t("intro.paragraph2")}
         </p>
       </section>
 
       {/* Conteúdo principal */}
-      <main className="flex flex-col items-end gap-16 p-12 relative mt-16">
+      <main className="flex flex-col items-center md:items-end gap-16 p-6 md:p-12 relative mt-10">
         {/* Banhista */}
         <div
-          className="relative w-80 h-64 md:w-96 md:h-72 rounded-[40px] overflow-hidden shadow-lg bg-cover bg-center border-4 border-[#6A5ACD]"
+          className="relative w-72 sm:w-80 md:w-96 h-60 sm:h-64 md:h-72 rounded-[30px] overflow-hidden shadow-lg bg-cover bg-center border-4 border-[#6A5ACD]"
           style={{ backgroundImage: "url('/praia.jpg')" }}
         >
           <img
             src="/banhista.png"
             alt="Banhista cartoon"
-            className="absolute bottom-0 right-6 w-40 h-auto object-contain"
+            className="absolute bottom-0 right-4 w-32 sm:w-36 md:w-40 h-auto"
           />
           <button
             onClick={() => setShowBatherCards(!showBatherCards)}
-            className="absolute top-2 left-2 z-20 bg-[#6A5ACD] text-white px-3 py-1 rounded-full shadow-lg font-bold hover:bg-[#5a49c1]"
+            className="absolute top-2 left-2 bg-[#6A5ACD] text-white px-3 py-1 rounded-full shadow-lg font-bold hover:bg-[#5a49c1]"
           >
             ▶
           </button>
@@ -130,33 +152,33 @@ export default function Home() {
 
         {/* Cards do Banhista */}
         <div
-          className={`absolute top-[calc(12rem)] right-12 flex gap-6 transition-all duration-500 ${
+          className={`transition-all duration-500 flex flex-col sm:flex-row gap-4 md:absolute ${
             showBatherCards
-              ? "translate-x-[-500px] opacity-100"
-              : "translate-x-0 opacity-0"
-          }`}
+              ? "md:translate-x-[-500px] opacity-100"
+              : "md:translate-x-0 opacity-0"
+          } top-[calc(12rem)] md:right-12`}
         >
-          <div className="bg-[#3AB54A] text-white rounded-2xl p-12 w-80 md:w-96 font-bold text-sm md:text-base shadow-lg">
+          <div className="bg-[#3AB54A] text-white rounded-2xl p-6 sm:p-8 w-72 sm:w-80 md:w-96 font-bold text-sm sm:text-base shadow-lg">
             {t("bather.tips")}
           </div>
-          <div className="bg-[#3AB54A] text-white rounded-2xl p-12 w-80 md:w-96 font-bold text-sm md:text-base shadow-lg">
+          <div className="bg-[#3AB54A] text-white rounded-2xl p-6 sm:p-8 w-72 sm:w-80 md:w-96 font-bold text-sm sm:text-base shadow-lg">
             {t("bather.equipment")}
           </div>
         </div>
 
         {/* Tubarão */}
         <div
-          className="relative w-80 h-64 md:w-96 md:h-72 rounded-[40px] overflow-hidden shadow-lg bg-cover bg-center border-4 border-[#6A5ACD]"
+          className="relative w-72 sm:w-80 md:w-96 h-60 sm:h-64 md:h-72 rounded-[30px] overflow-hidden shadow-lg bg-cover bg-center border-4 border-[#6A5ACD]"
           style={{ backgroundImage: "url('/praia-noite.png')" }}
         >
           <img
             src="/tubarao.png"
             alt="Tubarão com prancha"
-            className="absolute bottom-0 right-6 w-44 h-auto object-contain"
+            className="absolute bottom-0 right-4 w-36 sm:w-40 md:w-44 h-auto"
           />
           <button
             onClick={() => setShowSharkCards(!showSharkCards)}
-            className="absolute top-2 left-2 z-20 bg-[#6A5ACD] text-white px-3 py-1 rounded-full shadow-lg font-bold hover:bg-[#5a49c1]"
+            className="absolute top-2 left-2 bg-[#6A5ACD] text-white px-3 py-1 rounded-full shadow-lg font-bold hover:bg-[#5a49c1]"
           >
             ▶
           </button>
@@ -164,16 +186,16 @@ export default function Home() {
 
         {/* Cards do Tubarão */}
         <div
-          className={`absolute top-[calc(32rem)] right-12 flex gap-6 transition-all duration-500 ${
+          className={`transition-all duration-500 flex flex-col sm:flex-row gap-4 md:absolute ${
             showSharkCards
-              ? "translate-x-[-500px] opacity-100"
-              : "translate-x-0 opacity-0"
-          }`}
+              ? "md:translate-x-[-500px] opacity-100"
+              : "md:translate-x-0 opacity-0"
+          } top-[calc(32rem)] md:right-12`}
         >
-          <div className="bg-[#FF5C5C] text-white rounded-2xl p-12 w-80 md:w-96 font-bold text-sm md:text-base shadow-lg">
+          <div className="bg-[#FF5C5C] text-white rounded-2xl p-6 sm:p-8 w-72 sm:w-80 md:w-96 font-bold text-sm sm:text-base shadow-lg">
             {t("shark.attacks")}
           </div>
-          <div className="bg-[#FF5C5C] text-white rounded-2xl p-12 w-80 md:w-96 font-bold text-sm md:text-base shadow-lg">
+          <div className="bg-[#FF5C5C] text-white rounded-2xl p-6 sm:p-8 w-72 sm:w-80 md:w-96 font-bold text-sm sm:text-base shadow-lg">
             {t("shark.causes")}
           </div>
         </div>
@@ -181,7 +203,7 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="bg-[#6A5ACD] text-white text-center py-6 mt-24">
-        <p className="text-sm md:text-base">
+        <p className="text-sm sm:text-base">
           © 2025 Alerta Tubarão — Todos os direitos reservados
         </p>
       </footer>
