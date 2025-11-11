@@ -1,0 +1,25 @@
+{
+  "menu": {
+    "prevention": "Prevención",
+    "map": "Mapa",
+    "contact": "Contacto",
+    "download": "Descargar",
+    "login": "Iniciar sesión",
+    "register": "Registrar"
+  },
+  "intro": {
+    "title": "Ataques de Tiburones en Recife",
+    "paragraph1": "Recife es una de las ciudades más bellas de Brasil, pero también es conocida por los incidentes con tiburones. La combinación de factores ambientales y humanos ha aumentado estos encuentros, haciendo esencial la conciencia sobre la seguridad en las playas.",
+    "paragraph2": "En los últimos años, las autoridades han reforzado campañas educativas y medidas preventivas. Evitar nadar en zonas de riesgo, seguir las orientaciones de los socorristas y respetar las señales son acciones simples que salvan vidas."
+  },
+  "bather": {
+    "tips": "Consejos de seguridad para bañistas: Evite nadar en áreas aisladas y respete las advertencias de peligro.",
+    "equipment": "Equipos recomendados: Chaleco salvavidas, silbato de emergencia y atención extra."
+  },
+  "shark": {
+    "attacks": "Los ataques de tiburones suelen ocurrir cerca de estuarios y puertos.",
+    "causes": "Las principales causas son la pesca, los desechos y el desequilibrio ecológico."
+  },
+  "footer": "© 2025 Alerta Tiburón — Todos los derechos reservados"
+}
+

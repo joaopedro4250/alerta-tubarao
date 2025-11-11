@@ -1,0 +1,24 @@
+{
+  "menu": {
+    "prevention": "Prevention",
+    "map": "Map",
+    "contact": "Contact",
+    "download": "Download",
+    "login": "Login",
+    "register": "Register"
+  },
+  "intro": {
+    "title": "Shark Attacks in Recife",
+    "paragraph1": "Recife is one of the most beautiful cities in Brazil, but it is also known for its shark incidents. The combination of environmental and human factors has increased these encounters, making beach safety awareness essential.",
+    "paragraph2": "In recent years, authorities have reinforced educational campaigns and preventive measures. Avoid swimming in risky areas, follow lifeguard instructions, and respect warning signs — simple actions that save lives."
+  },
+  "bather": {
+    "tips": "Safety tips for swimmers: Avoid isolated areas and respect danger warnings.",
+    "equipment": "Recommended equipment: Life jacket, emergency whistle, and extra caution."
+  },
+  "shark": {
+    "attacks": "Shark attacks usually occur near estuaries and ports.",
+    "causes": "Main causes include fishing, waste disposal, and ecological imbalance."
+  },
+  "footer": "© 2025 Shark Alert — All rights reserved"
+}

@@ -1,0 +1,25 @@
+{
+  "menu": {
+    "prevention": "Prevenção",
+    "map": "Mapa",
+    "contact": "Contato",
+    "download": "Download",
+    "login": "Entrar",
+    "register": "Registrar"
+  },
+  "intro": {
+    "title": "Ataques de Tubarão em Recife",
+    "paragraph1": "Recife é uma das cidades mais belas do Brasil, mas também é conhecida pelos incidentes com tubarões. A combinação de fatores ambientais e humanos tem levado ao aumento desses encontros, tornando essencial a conscientização sobre segurança nas praias.",
+    "paragraph2": "Nos últimos anos, as autoridades têm reforçado campanhas educativas e medidas preventivas. Evitar nadar em áreas de risco, seguir as orientações dos salva-vidas e respeitar as sinalizações são atitudes simples que salvam vidas."
+  },
+  "bather": {
+    "tips": "Dicas de segurança para banhistas: Evite nadar em áreas isoladas e respeite os avisos de perigo.",
+    "equipment": "Equipamentos recomendados: Colete salva-vidas, apito de emergência e atenção redobrada."
+  },
+  "shark": {
+    "attacks": "Os ataques de tubarão geralmente acontecem em áreas próximas a estuários e portos.",
+    "causes": "As principais causas são a pesca, o descarte de resíduos e o desequilíbrio ecológico."
+  },
+  "footer": "© 2025 Alerta Tubarão — Todos os direitos reservados"
+}
+
