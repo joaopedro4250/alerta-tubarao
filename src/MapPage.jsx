@@ -122,7 +122,7 @@ export default function MapPage() {
       <main className="flex-grow flex flex-col md:flex-row bg-[#f9fafb]">
         {/* MAPA */}
         <div className="flex-1 p-4 md:p-6">
-          <div className="w-full h-80 sm:h-[28rem] md:h-[640px] rounded-2xl overflow-hidden shadow-lg">
+          <div className="w-full h-80 sm:h-[28rem] md:h-[640px] rounded-2xl overflow-hidden shadow-lg relative z-0">
             <MapContainer
               center={[-8.087, -34.905]}
               zoom={12}
@@ -164,7 +164,7 @@ export default function MapPage() {
         </div>
 
         {/* PAINEL DIREITO */}
-        <aside className="w-full md:w-80 bg-[#f0e9ff] p-6 shadow-inner flex flex-col items-center justify-between mt-6 md:mt-0">
+        <aside className="w-full md:w-80 bg-[#f0e9ff] p-6 shadow-inner flex flex-col items-center justify-between mt-6 md:mt-0 relative z-10">
           {/* Buscar Praia */}
           <div className="w-full flex flex-col items-center">
             <h2 className="text-lg font-semibold text-gray-700 mb-3">
