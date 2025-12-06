@@ -1,12 +1,11 @@
 // src/MapPage.jsx
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
-import { praias } from "./data/praias";
-import { useTranslation } from "react-i18next";
-import Header from "./Header"; // ✅ Import do header reutilizável
+import Header from "./Header";
 
+// Corrige problema de ícones padrão do Leaflet
 delete L.Icon.Default.prototype._getIconUrl;
 
 const icones = {
@@ -18,7 +17,7 @@ const icones = {
     iconSize: [25, 41],
     iconAnchor: [12, 41],
   }),
-  médio: new L.Icon({
+  medio: new L.Icon({
     iconUrl:
       "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-orange.png",
     shadowUrl:
@@ -45,11 +44,45 @@ function FlyToPraia({ position }) {
 }
 
 export default function MapPage() {
-  const { t } = useTranslation();
+  const [praias, setPraias] = useState([]);
   const [busca, setBusca] = useState("");
   const [praiaSelecionada, setPraiaSelecionada] = useState(null);
   const popupRefs = useRef({});
   const [sugestoes, setSugestoes] = useState([]);
+
+  useEffect(() => {
+    async function carregarPraias() {
+      try {
+        const res = await fetch(
+          "https://v6nzc8wz0i.execute-api.us-east-1.amazonaws.com/getPraias"
+        );
+        const data = await res.json();
+
+        const tratadas = data.praias
+          .map((p) => {
+            const lat = Number(p.lat);
+            const lng = Number(p.lng);
+            let risco = (p.risco || "medio")
+              .toLowerCase()
+              .normalize("NFD")
+              .replace(/[\u0300-\u036f]/g, "");
+            return {
+              ...p,
+              posicao: [lat, lng],
+              risco,
+              descricao: p.descricao || "Sem descrição disponível",
+            };
+          })
+          .filter((p) => !p.posicao.includes(NaN));
+
+        setPraias(tratadas);
+      } catch (err) {
+        console.error("Erro ao carregar praias:", err);
+      }
+    }
+
+    carregarPraias();
+  }, []);
 
   const handleBuscar = (nomePraia) => {
     const resultado = praias.find(
@@ -59,8 +92,9 @@ export default function MapPage() {
       setPraiaSelecionada(resultado);
       setBusca(resultado.nome);
       setSugestoes([]);
+
       setTimeout(() => {
-        const popup = popupRefs.current[resultado.id];
+        const popup = popupRefs.current[resultado.nome];
         if (popup) popup.openOn(popup._map);
       }, 500);
     } else {
@@ -82,14 +116,13 @@ export default function MapPage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-white">
-      {/* ✅ Cabeçalho reutilizado */}
       <Header />
 
-      {/* Conteúdo principal */}
-      <main className="flex-grow flex flex-row bg-[#f9fafb]">
-        {/* Mapa à esquerda */}
-        <div className="flex-1 p-6">
-          <div className="w-full h-[640px] rounded-2xl overflow-hidden shadow-lg">
+      {/* MAIN: desktop flex-row, mobile flex-col */}
+      <main className="flex-grow flex flex-col md:flex-row bg-[#f9fafb]">
+        {/* MAPA */}
+        <div className="flex-1 p-4 md:p-6">
+          <div className="w-full h-80 sm:h-[28rem] md:h-[640px] rounded-2xl overflow-hidden shadow-lg">
             <MapContainer
               center={[-8.087, -34.905]}
               zoom={12}
@@ -98,19 +131,15 @@ export default function MapPage() {
             >
               <TileLayer
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                attribution='&copy; OpenStreetMap'
               />
-
-              {praiaSelecionada && (
-                <FlyToPraia position={praiaSelecionada.posicao} />
-              )}
-
+              {praiaSelecionada && <FlyToPraia position={praiaSelecionada.posicao} />}
               {praias.map((praia) => (
                 <Marker
-                  key={praia.id}
+                  key={praia.nome}
                   position={praia.posicao}
                   icon={icones[praia.risco]}
-                  ref={(ref) => (popupRefs.current[praia.id] = ref)}
+                  ref={(ref) => (popupRefs.current[praia.nome] = ref)}
                 >
                   <Popup autoClose={false}>
                     <strong>{praia.nome}</strong> <br />
@@ -118,7 +147,7 @@ export default function MapPage() {
                       className={`capitalize ${
                         praia.risco === "alto"
                           ? "text-red-600"
-                          : praia.risco === "médio"
+                          : praia.risco === "medio"
                           ? "text-yellow-600"
                           : "text-green-600"
                       }`}
@@ -134,8 +163,9 @@ export default function MapPage() {
           </div>
         </div>
 
-        {/* Painel lateral direito */}
-        <aside className="w-80 bg-[#f0e9ff] p-6 shadow-inner flex flex-col items-center justify-between">
+        {/* PAINEL DIREITO */}
+        <aside className="w-full md:w-80 bg-[#f0e9ff] p-6 shadow-inner flex flex-col items-center justify-between mt-6 md:mt-0">
+          {/* Buscar Praia */}
           <div className="w-full flex flex-col items-center">
             <h2 className="text-lg font-semibold text-gray-700 mb-3">
               Buscar praia
@@ -147,20 +177,20 @@ export default function MapPage() {
                 placeholder="Digite o nome da praia..."
                 value={busca}
                 onChange={(e) => handleChange(e.target.value)}
-                className="border border-gray-300 rounded-lg px-3 py-2 w-full focus:ring-2 focus:ring-[#6A5ACD] outline-none"
+                className="border border-gray-300 rounded-lg px-3 py-2 w-full"
               />
               <button
                 onClick={() => handleBuscar(busca)}
-                className="mt-3 w-full bg-[#6A5ACD] text-white py-2 rounded-lg hover:bg-[#5b4db8] transition"
+                className="mt-3 w-full bg-[#6A5ACD] text-white py-2 rounded-lg"
               >
                 Buscar
               </button>
 
               {sugestoes.length > 0 && (
-                <ul className="absolute top-full left-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg w-full max-h-48 overflow-y-auto z-50">
+                <ul className="absolute top-full left-0 mt-1 bg-white border rounded-lg shadow-lg w-full max-h-48 overflow-y-auto z-50">
                   {sugestoes.map((praia) => (
                     <li
-                      key={praia.id}
+                      key={praia.nome}
                       onClick={() => handleBuscar(praia.nome)}
                       className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
                     >
@@ -173,21 +203,15 @@ export default function MapPage() {
 
             {praiaSelecionada && (
               <div className="mt-6 bg-white p-4 rounded-lg shadow w-full text-center">
-                <h3 className="font-bold text-[#6A5ACD]">
-                  {praiaSelecionada.nome}
-                </h3>
-                <p className="text-gray-600 mt-2">
-                  {praiaSelecionada.descricao}
-                </p>
+                <h3 className="font-bold text-[#6A5ACD]">{praiaSelecionada.nome}</h3>
+                <p className="text-gray-600 mt-2">{praiaSelecionada.descricao}</p>
               </div>
             )}
           </div>
 
-          {/* Legenda centralizada */}
-          <div className="mt-8 bg-white p-4 rounded-lg shadow text-center w-full flex flex-col items-center justify-center">
-            <h4 className="font-semibold text-gray-800 mb-2 flex items-center justify-center gap-2">
-              🦈 Legenda de Risco
-            </h4>
+          {/* Legenda */}
+          <div className="mt-8 bg-white p-4 rounded-lg shadow text-center w-full">
+            <h4 className="font-semibold text-gray-800 mb-2">🦈 Legenda de Risco</h4>
             <div className="flex flex-col items-start gap-2">
               <div className="flex items-center gap-2">
                 <div className="w-4 h-4 bg-red-500 rounded"></div>
@@ -206,7 +230,6 @@ export default function MapPage() {
         </aside>
       </main>
 
-      {/* Footer */}
       <footer className="bg-[#6A5ACD] text-white text-center py-6 mt-8">
         <p>© 2025 Alerta Tubarão — Todos os direitos reservados</p>
       </footer>

@@ -1,43 +1,60 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Header from "./Header"; // 👈 Importa o Header reutilizável
+import Header from "./Header";
 
 export default function LoginPage() {
   const navigate = useNavigate();
-  const [usuario, setUsuario] = useState("");
+  const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [erro, setErro] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
+    setErro("");
+    setLoading(true);
 
-    if (usuario === "admin" && senha === "1234") {
+    try {
+      const resp = await fetch(
+        "https://v6nzc8wz0i.execute-api.us-east-1.amazonaws.com/loginUser",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: email.trim(), senha }),
+        }
+      );
+
+      const data = await resp.json();
+      if (!resp.ok) {
+        setErro(data.error || "Erro ao fazer login");
+        setLoading(false);
+        return;
+      }
+
+      localStorage.setItem("token", data.token);
+      // opcional: salvar info do usuário decodificando token se quiser mostrar o nome
       navigate("/map");
-    } else {
-      setErro("Usuário ou senha incorretos!");
+    } catch (err) {
+      console.error(err);
+      setErro("Erro ao conectar com o servidor.");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="min-h-screen flex flex-col bg-[#f0e9ff]">
-      {/* Header igual ao Home */}
       <Header />
-
-      {/* Conteúdo principal */}
       <main className="flex-grow flex items-center justify-center">
-        <form
-          onSubmit={handleLogin}
-          className="bg-white p-8 rounded-2xl shadow-xl w-96 text-center"
-        >
-          <h1 className="text-2xl font-bold text-[#6A5ACD] mb-6">
-            Login - Alerta Tubarão
-          </h1>
+        <form onSubmit={handleLogin} className="bg-white p-8 rounded-2xl shadow-xl w-96 text-center">
+          <h1 className="text-2xl font-bold text-[#6A5ACD] mb-6">Login - Alerta Tubarão</h1>
 
           <input
-            type="text"
-            placeholder="Usuário"
-            value={usuario}
-            onChange={(e) => setUsuario(e.target.value)}
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
             className="w-full border border-gray-300 rounded-lg px-3 py-2 mb-4 focus:ring-2 focus:ring-[#6A5ACD] outline-none"
           />
 
@@ -46,6 +63,7 @@ export default function LoginPage() {
             placeholder="Senha"
             value={senha}
             onChange={(e) => setSenha(e.target.value)}
+            required
             className="w-full border border-gray-300 rounded-lg px-3 py-2 mb-4 focus:ring-2 focus:ring-[#6A5ACD] outline-none"
           />
 
@@ -53,14 +71,14 @@ export default function LoginPage() {
 
           <button
             type="submit"
-            className="w-full bg-[#6A5ACD] text-white py-2 rounded-lg hover:bg-[#5b4db8] transition"
+            disabled={loading}
+            className={`w-full bg-[#6A5ACD] text-white py-2 rounded-lg hover:bg-[#5b4db8] transition ${loading ? "opacity-60 cursor-not-allowed" : ""}`}
           >
-            Entrar
+            {loading ? "Entrando..." : "Entrar"}
           </button>
         </form>
       </main>
 
-      {/* Footer */}
       <footer className="bg-[#6A5ACD] text-white text-center py-6 mt-8">
         <p>© 2025 Alerta Tubarão — Todos os direitos reservados</p>
       </footer>
