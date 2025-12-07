@@ -5,9 +5,7 @@ import { Link } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import Header from "./Header"; // ✅ Importando seu Header atualizado
-
-
+import Header from "./Header";
 
 export default function Home() {
   const [showMoreInfo, setShowMoreInfo] = useState(false);
@@ -25,7 +23,6 @@ export default function Home() {
 
   return (
     <div className="min-h-screen flex flex-col bg-white relative">
-      {/* 👇 Usa o Header atualizado */}
       <Header />
 
       {/* INTRODUÇÃO */}
@@ -44,13 +41,13 @@ export default function Home() {
           onClick={abrirMaisInformacoes}
           className="mt-6 bg-[#6A5ACD] text-white px-8 py-3 rounded-xl shadow-lg hover:bg-[#5a49c1] transition"
         >
-          Saiba mais ↓
+          {t("home.learnMore")}
         </button>
       </section>
 
       {/* MINI MAPA */}
       <section className="w-full max-w-5xl mx-auto mt-12 px-4 text-center">
-        <h2 className="text-2xl md:text-3xl font-bold text-[#6A5ACD] mb-4">Veja o mapa de risco em tempo real</h2>
+        <h2 className="text-2xl md:text-3xl font-bold text-[#6A5ACD] mb-4">{t("home.realtimeMap")}</h2>
         <div className="w-full h-72 md:h-80 border-2 border-[#6A5ACD] shadow-lg rounded-2xl overflow-hidden">
           <MapContainer
             center={[-8.125, -34.915]}
@@ -63,7 +60,7 @@ export default function Home() {
           >
             <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
             <Marker position={[-8.125, -34.915]}>
-              <Popup>Praias monitoradas</Popup>
+              <Popup>{t("home.monitoredBeaches")}</Popup>
             </Marker>
           </MapContainer>
         </div>
@@ -72,7 +69,7 @@ export default function Home() {
           to="/map"
           className="mt-6 inline-block bg-[#6A5ACD] text-white font-semibold px-8 py-3 rounded-xl shadow-lg hover:bg-[#5a49c1] transition text-lg"
         >
-          Acessar mapa completo →
+          {t("home.fullMap")}
         </Link>
       </section>
 
@@ -85,7 +82,7 @@ export default function Home() {
           }`}
         >
           <h2 className="text-2xl md:text-3xl text-center font-bold text-[#6A5ACD] mb-10">
-            Informações importantes
+            {t("home.importantInfo")}
           </h2>
 
           {/* IMAGEM BANHISTA */}

@@ -20,5 +20,51 @@
     "attacks": "Shark attacks usually occur near estuaries and ports.",
     "causes": "Main causes include fishing, waste disposal, and ecological imbalance."
   },
+  "login": {
+    "title": "Login - Shark Alert",
+    "email": "Email",
+    "password": "Password",
+    "loginError": "Error logging in",
+    "serverError": "Error connecting to the server.",
+    "submit": "Login",
+    "loading": "Logging in..."
+  },
+  "register": {
+    "title": "Register - Shark Alert",
+    "name": "Full Name",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "code": "Confirmation Code",
+    "codeSent": "Code sent to {{email}}",
+    "fillAllFields": "Please fill in all fields!",
+    "passwordMismatch": "Passwords do not match!",
+    "submit": "Register",
+    "sendingCode": "Sending code...",
+    "registering": "Registering...",
+    "loginLink": "Already have an account? Login",
+    "success": "User registered successfully!",
+    "sendCodeError": "Error sending code",
+    "registerError": "Error registering!",
+    "serverError": "Error connecting to the server."
+  },
+  "map": {
+    "searchBeach": "Search beach",
+    "placeholder": "Enter the beach name...",
+    "searchButton": "Search",
+    "riskLegend": "🦈 Risk Legend",
+    "highRisk": "High risk",
+    "mediumRisk": "Medium risk",
+    "lowRisk": "Low risk"
+  },
+  
+  "home": {
+    "learnMore": "Learn more ↓",
+    "realtimeMap": "See the real-time risk map",
+    "fullMap": "Access full map →",
+    "importantInfo": "Important information"
+  },
+
+
   "footer": "© 2025 Shark Alert — All rights reserved"
 }

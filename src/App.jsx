@@ -6,8 +6,10 @@ import RegisterPage from "./RegisterPage";
 
 import AdminDashboard from "./AdminDashboard";
 import GerenciarPraia from "./GerenciarPraia";
-import GerenciarAtaque from "./GerenciarAtaque";
 import GerenciarPraias from "./GerenciarPraias";
+
+import GerenciarAtaques from "./GerenciarAtaques"; // ✅ ROTA CORRETA
+
 
 export default function App() {
   return (
@@ -21,7 +23,7 @@ export default function App() {
         {/* Rotas administrativas */}
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/admin/praias" element={<GerenciarPraia />} />
-        <Route path="/admin/ataques" element={<GerenciarAtaque />} />
+        <Route path="/admin/ataques" element={<GerenciarAtaques />} /> {/* ✅ CORRIGIDO */}
         <Route path="/gerenciarPraia" element={<GerenciarPraias />} />
       </Routes>
     </Router>

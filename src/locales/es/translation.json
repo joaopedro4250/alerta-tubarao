@@ -20,6 +20,52 @@
     "attacks": "Los ataques de tiburones suelen ocurrir cerca de estuarios y puertos.",
     "causes": "Las principales causas son la pesca, los desechos y el desequilibrio ecológico."
   },
+  "login": {
+    "title": "Iniciar sesión - Alerta Tiburón",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "loginError": "Error al iniciar sesión",
+    "serverError": "Error al conectar con el servidor.",
+    "submit": "Iniciar sesión",
+    "loading": "Iniciando sesión..."
+  },
+  "register": {
+    "title": "Registrar - Alerta Tiburón",
+    "name": "Nombre completo",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "confirmPassword": "Confirmar contraseña",
+    "code": "Código de confirmación",
+    "codeSent": "Código enviado a {{email}}",
+    "fillAllFields": "¡Rellene todos los campos!",
+    "passwordMismatch": "¡Las contraseñas no coinciden!",
+    "submit": "Registrar",
+    "sendingCode": "Enviando código...",
+    "registering": "Registrando...",
+    "loginLink": "¿Ya tienes cuenta? Inicia sesión",
+    "success": "¡Usuario registrado con éxito!",
+    "sendCodeError": "Error al enviar el código",
+    "registerError": "Error al registrar",
+    "serverError": "Error de conexión con el servidor."
+  }, 
+  "map": {
+    "searchBeach": "Buscar playa",
+    "placeholder": "Ingrese el nombre de la playa...",
+    "searchButton": "Buscar",
+    "riskLegend": "🦈 Leyenda de Riesgo",
+    "highRisk": "Alto riesgo",
+    "mediumRisk": "Riesgo medio",
+    "lowRisk": "Bajo riesgo"
+  },
+
+  "home": {
+    "learnMore": "Sepa más ↓",
+    "realtimeMap": "Vea el mapa de riesgo en tiempo real",
+    "fullMap": "Acceder al mapa completo →",
+    "importantInfo": "Información importante"
+  },
+
+
+
   "footer": "© 2025 Alerta Tiburón — Todos los derechos reservados"
 }
-

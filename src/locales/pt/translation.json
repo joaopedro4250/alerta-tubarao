@@ -20,6 +20,51 @@
     "attacks": "Os ataques de tubarão geralmente acontecem em áreas próximas a estuários e portos.",
     "causes": "As principais causas são a pesca, o descarte de resíduos e o desequilíbrio ecológico."
   },
+  "login": {
+    "title": "Login - Alerta Tubarão",
+    "email": "Email",
+    "password": "Senha",
+    "loginError": "Erro ao fazer login",
+    "serverError": "Erro ao conectar com o servidor.",
+    "submit": "Entrar",
+    "loading": "Entrando..."
+  },
+  "register": {
+    "title": "Registrar - Alerta Tubarão",
+    "name": "Nome completo",
+    "email": "E-mail",
+    "password": "Senha",
+    "confirmPassword": "Confirmar senha",
+    "code": "Código de confirmação",
+    "codeSent": "Código enviado para {{email}}",
+    "fillAllFields": "Preencha todos os campos!",
+    "passwordMismatch": "As senhas não coincidem!",
+    "submit": "Registrar",
+    "sendingCode": "Enviando código...",
+    "registering": "Registrando...",
+    "loginLink": "Já tem uma conta? Faça login",
+    "success": "Usuário registrado com sucesso!",
+    "sendCodeError": "Erro ao enviar código",
+    "registerError": "Erro ao registrar!",
+    "serverError": "Erro de conexão com o servidor."
+  },
+  
+  "map": {
+    "searchBeach": "Buscar praia",
+    "placeholder": "Digite o nome da praia...",
+    "searchButton": "Buscar",
+    "riskLegend": "🦈 Legenda de Risco",
+    "highRisk": "Alto risco",
+    "mediumRisk": "Médio risco",
+    "lowRisk": "Baixo risco"
+  },
+  
+  "home": {
+    "learnMore": "Saiba mais ↓",
+    "realtimeMap": "Veja o mapa de risco em tempo real",
+    "fullMap": "Acessar mapa completo →",
+     "importantInfo": "Informações importantes"
+  },
+  
   "footer": "© 2025 Alerta Tubarão — Todos os direitos reservados"
 }
-

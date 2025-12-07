@@ -28,7 +28,7 @@ export default function AdminDashboard() {
         </Link>
 
         <Link
-          to="/gerenciarAtaque"
+          to="/admin/ataques"
           className="p-6 bg-red-600 text-white rounded-lg hover:bg-red-700"
         >
           Gerenciar Ataques

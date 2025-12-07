@@ -1,9 +1,11 @@
 // src/RegisterPage.jsx
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import Header from "./Header";
 
 export default function RegisterPage() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
@@ -22,12 +24,12 @@ export default function RegisterPage() {
 
     // Valida campos
     if (!nome || !email || !senha || !confirmarSenha) {
-      setErro("Preencha todos os campos!");
+      setErro(t("register.fillAllFields"));
       return;
     }
 
     if (senha !== confirmarSenha) {
-      setErro("As senhas não coincidem!");
+      setErro(t("register.passwordMismatch"));
       return;
     }
 
@@ -48,16 +50,16 @@ export default function RegisterPage() {
         const data = await response.json();
 
         if (!response.ok) {
-          setErro(data.error || "Erro ao enviar código");
+          setErro(data.error || t("register.sendCodeError"));
           setLoading(false);
           return;
         }
 
-        setMensagem(`Código enviado para ${email}`);
+        setMensagem(t("register.codeSent", { email }));
         setCodigoEnviado(true);
       } catch (err) {
         console.error(err);
-        setErro("Erro de conexão com o servidor.");
+        setErro(t("register.serverError"));
       } finally {
         setLoading(false);
       }
@@ -66,7 +68,7 @@ export default function RegisterPage() {
 
     // Passo 2: registrar usuário com código
     if (!codigo) {
-      setErro("Digite o código de confirmação enviado para seu e-mail!");
+      setErro(t("register.code") + " " + t("register.fillAllFields"));
       setLoading(false);
       return;
     }
@@ -84,16 +86,16 @@ export default function RegisterPage() {
       const data = await response.json();
 
       if (!response.ok) {
-        setErro(data.error || "Erro ao registrar!");
+        setErro(data.error || t("register.registerError"));
         setLoading(false);
         return;
       }
 
-      alert("Usuário registrado com sucesso!");
+      alert(t("register.success"));
       navigate("/login");
     } catch (err) {
       console.error(err);
-      setErro("Erro de conexão com o servidor.");
+      setErro(t("register.serverError"));
     } finally {
       setLoading(false);
     }
@@ -109,12 +111,12 @@ export default function RegisterPage() {
           className="bg-white p-8 rounded-2xl shadow-xl w-96 text-center"
         >
           <h1 className="text-2xl font-bold text-[#6A5ACD] mb-6">
-            Registrar - Alerta Tubarão
+            {t("register.title")}
           </h1>
 
           <input
             type="text"
-            placeholder="Nome completo"
+            placeholder={t("register.name")}
             value={nome}
             onChange={(e) => setNome(e.target.value)}
             className="w-full border border-gray-300 rounded-lg px-3 py-2 mb-4 focus:ring-2 focus:ring-[#6A5ACD] outline-none"
@@ -122,7 +124,7 @@ export default function RegisterPage() {
 
           <input
             type="email"
-            placeholder="E-mail"
+            placeholder={t("register.email")}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             className="w-full border border-gray-300 rounded-lg px-3 py-2 mb-4 focus:ring-2 focus:ring-[#6A5ACD] outline-none"
@@ -131,7 +133,7 @@ export default function RegisterPage() {
 
           <input
             type="password"
-            placeholder="Senha"
+            placeholder={t("register.password")}
             value={senha}
             onChange={(e) => setSenha(e.target.value)}
             className="w-full border border-gray-300 rounded-lg px-3 py-2 mb-4 focus:ring-2 focus:ring-[#6A5ACD] outline-none"
@@ -139,7 +141,7 @@ export default function RegisterPage() {
 
           <input
             type="password"
-            placeholder="Confirmar senha"
+            placeholder={t("register.confirmPassword")}
             value={confirmarSenha}
             onChange={(e) => setConfirmarSenha(e.target.value)}
             className="w-full border border-gray-300 rounded-lg px-3 py-2 mb-4 focus:ring-2 focus:ring-[#6A5ACD] outline-none"
@@ -148,7 +150,7 @@ export default function RegisterPage() {
           {codigoEnviado && (
             <input
               type="text"
-              placeholder="Código de confirmação"
+              placeholder={t("register.code")}
               value={codigo}
               onChange={(e) => setCodigo(e.target.value)}
               className="w-full border border-gray-300 rounded-lg px-3 py-2 mb-4 focus:ring-2 focus:ring-[#6A5ACD] outline-none"
@@ -165,18 +167,18 @@ export default function RegisterPage() {
           >
             {loading
               ? codigoEnviado
-                ? "Registrando..."
-                : "Enviando código..."
-              : "Registrar"}
+                ? t("register.registering")
+                : t("register.sendingCode")
+              : t("register.submit")}
           </button>
 
           <p className="mt-4 text-gray-600 text-sm">
-            Já tem uma conta?{" "}
+            {t("register.loginLink")}
             <span
-              className="text-[#6A5ACD] font-semibold cursor-pointer hover:underline"
+              className="text-[#6A5ACD] font-semibold cursor-pointer hover:underline ml-1"
               onClick={() => navigate("/login")}
             >
-              Faça login
+              {t("login.submit")}
             </span>
           </p>
         </form>
