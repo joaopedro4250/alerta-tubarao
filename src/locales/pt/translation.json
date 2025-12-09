@@ -27,6 +27,7 @@
     "loginError": "Erro ao fazer login",
     "serverError": "Erro ao conectar com o servidor.",
     "submit": "Entrar",
+   "forgotPassword": "Esqueci minha senha",
     "loading": "Entrando..."
   },
   "register": {

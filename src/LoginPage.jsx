@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import Header from "./Header";
 
 export default function LoginPage() {
-  const { t } = useTranslation(); // <- IMPORTANTE
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
@@ -28,14 +28,27 @@ export default function LoginPage() {
       );
 
       const data = await resp.json();
+
       if (!resp.ok) {
         setErro(data.error || t("login.loginError"));
         setLoading(false);
         return;
       }
 
+      //  Salva token normal
       localStorage.setItem("token", data.token);
+
+      //  DETECTANDO SE SENHA É TEMPORÁRIA
+      // regra: senhas temporárias têm 8 caracteres
+      if (senha.length === 8) {
+        localStorage.setItem("emailTemp", email); // usado para pré-preencher a tela de trocar senha
+        navigate("/alterar-senha");
+        return;
+      }
+
+      //  Login normal → manda para o mapa
       navigate("/map");
+
     } catch (err) {
       console.error(err);
       setErro(t("login.serverError"));
@@ -71,12 +84,20 @@ export default function LoginPage() {
             value={senha}
             onChange={(e) => setSenha(e.target.value)}
             required
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 mb-4 focus:ring-2 focus:ring-[#6A5ACD] outline-none"
+            className="w-full border border-gray-300 rounded-lg px-3 py-2 mb-2 focus:ring-2 focus:ring-[#6A5ACD] outline-none"
           />
 
-          {erro && (
-            <p className="text-red-500 text-sm mb-4">{erro}</p>
-          )}
+          <div className="text-right mb-4">
+            <button
+              type="button"
+              className="text-sm text-[#6A5ACD] hover:underline"
+              onClick={() => navigate("/recuperar-senha")}
+            >
+              {t("login.forgotPassword") || "Esqueci minha senha"}
+            </button>
+          </div>
+
+          {erro && <p className="text-red-500 text-sm mb-4">{erro}</p>}
 
           <button
             type="submit"

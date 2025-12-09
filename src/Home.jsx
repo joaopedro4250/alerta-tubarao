@@ -1,4 +1,4 @@
-// src/Home.jsx
+
 import { useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";

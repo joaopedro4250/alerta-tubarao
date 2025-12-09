@@ -14,18 +14,16 @@ export default function GerenciarAtaques() {
 
   const [abertoPorPraia, setAbertoPorPraia] = useState({}); // para o acordeão
 
-  // ================================
-  // CARREGAR PRAIAS
-  // ================================
+  
+  // CARREGAR PRAIAS// 
   useEffect(() => {
     fetch("https://v6nzc8wz0i.execute-api.us-east-1.amazonaws.com/getPraias")
       .then((r) => r.json())
       .then((data) => setPraias(data.praias || []));
   }, []);
 
-  // ================================
-  // CARREGAR ATAQUES
-  // ================================
+  
+  // CARREGAR ATAQUES  //
   const carregarAtaques = () => {
     fetch("https://v6nzc8wz0i.execute-api.us-east-1.amazonaws.com/getAtaques")
       .then((r) => r.json())
@@ -36,9 +34,8 @@ export default function GerenciarAtaques() {
     carregarAtaques();
   }, []);
 
-  // ================================
-  // ADICIONAR ATAQUE
-  // ================================
+ 
+  // ADICIONAR ATAQUE // 
   const adicionarAtaque = async () => {
     if (!novaPraiaId || !novaData || !novaDescricao) {
       alert("Preencha todos os campos!");
@@ -68,9 +65,8 @@ export default function GerenciarAtaques() {
     carregarAtaques();
   };
 
-  // ================================
-  // ATUALIZAR ATAQUE
-  // ================================
+ 
+  // ATUALIZAR ATAQUE// 
   const salvarEdicao = async (id) => {
     const ataqueOriginal = ataques.find((a) => a.id === id);
 
@@ -111,9 +107,8 @@ export default function GerenciarAtaques() {
     carregarAtaques();
   };
 
-  // ================================
-  // DELETAR ATAQUE
-  // ================================
+  
+  // DELETAR ATAQUE // 
   const deletarAtaque = async (id) => {
     const res = await fetch(
       "https://v6nzc8wz0i.execute-api.us-east-1.amazonaws.com/gerenciarAtaque",
@@ -131,9 +126,8 @@ export default function GerenciarAtaques() {
     carregarAtaques();
   };
 
-  // ================================
-  // FILTRAR ATAQUES POR PRAIA OU DESCRIÇÃO
-  // ================================
+  
+  // FILTRAR ATAQUES POR PRAIA OU DESCRIÇÃO // 
   const ataquesFiltrados = ataques.filter((a) => {
     const praiaNome = praias.find((p) => p.praiaId === a.praiaId)?.nome || "";
     return (
@@ -142,9 +136,8 @@ export default function GerenciarAtaques() {
     );
   });
 
-  // ================================
-  // AGRUPAR POR PRAIA
-  // ================================
+ 
+  // AGRUPAR POR PRAIA // 
   const ataquesPorPraia = praias
     .map((p) => ({
       praia: p,
@@ -152,9 +145,8 @@ export default function GerenciarAtaques() {
     }))
     .filter((g) => g.ataques.length > 0);
 
-  // ================================
-  // FUNÇÃO PARA COR DO CARD
-  // ================================
+  
+  // FUNÇÃO PARA COR DO CARD  // 
   const corAtaque = (quantidade) => {
     if (quantidade <= 3) return "bg-green-200";
     if (quantidade <= 9) return "bg-yellow-200";
@@ -213,7 +205,7 @@ export default function GerenciarAtaques() {
         onChange={(e) => setBusca(e.target.value)}
       />
 
-      {/* LISTA DE ATAQUES AGRUPADOS POR PRAIA (ACORDEÃO) */}
+      {/* LISTA DE ATAQUES AGRUPADOS POR PRAIA (TIPO UMA PASTA) */}
       {ataquesPorPraia.map((grupo) => (
         <div
           key={grupo.praia.praiaId}
